@@ -116,6 +116,7 @@
           %}
         </aside>
       {%- endif -%}
+      {% render 'custom-filters' %}
 
       <div
         class="product-grid-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"

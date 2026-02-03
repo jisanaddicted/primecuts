@@ -1,0 +1,37 @@
+.custom-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filter-group {
+  position: relative;
+}
+
+.filter-title {
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: #f3f3f3;
+  font-weight: 600;
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border-radius: 18px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
