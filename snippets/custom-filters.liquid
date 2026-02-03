@@ -2,6 +2,7 @@
 {{ 'custom-filter.css' | asset_url | stylesheet_tag }}
 {{ 'custom-filter.js' | asset_url | script_tag }}
 
+{{ collection.filters }}
 <div class="custom-filters">
 {{  collection.filters }}
   {% for filter in collection.filters %}
