@@ -3,7 +3,7 @@
 {{ 'custom-filter.js' | asset_url | script_tag }}
 
 <div class="custom-filters">
-
+{{  collection.filters }}
   {% for filter in collection.filters %}
     <div class="filter-group">
       
