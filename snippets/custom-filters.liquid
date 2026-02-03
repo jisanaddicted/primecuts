@@ -1,0 +1,31 @@
+
+{{ 'custom-filter.css' | asset_url | stylesheet_tag }}
+{{ 'custom-filter.js' | asset_url | script_tag }}
+
+<div class="custom-filters">
+
+  {% for filter in collection.filters %}
+    <div class="filter-group">
+      
+      <button class="filter-title">
+        {{ filter.label }}
+      </button>
+
+      <div class="filter-options">
+
+        {% for value in filter.values %}
+          <button
+            class="filter-btn {% if value.active %}active{% endif %}"
+            data-param="{{ filter.param_name }}"
+            data-value="{{ value.value }}"
+          >
+            {{ value.label }}
+          </button>
+        {% endfor %}
+
+      </div>
+
+    </div>
+  {% endfor %}
+
+</div>
