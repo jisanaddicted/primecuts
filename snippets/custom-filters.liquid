@@ -3,6 +3,9 @@
 {{ 'custom-filter.js' | asset_url | script_tag }}
 
 <div class="custom-filters">
+{% for filter in collection.filters %}
+  {{ filter.label }}
+{% endfor %}
 
   {% for filter in collection.filters %}
     <div class="filter-group">
