@@ -198,6 +198,12 @@
   padding: 0 1.75rem 0 0;
   margin-bottom: 1.5rem;
 }
+.facets__summary{
+  height:41px;
+  width:136px;
+  border:1px solid #D9DCE0;
+  border-radius:8px;
+}
 
 .facets__summary .svg-wrapper {
   height: auto;
