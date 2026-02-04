@@ -2,9 +2,9 @@
 {{ 'custom-filter.css' | asset_url | stylesheet_tag }}
 {{ 'custom-filter.js' | asset_url | script_tag }}
 
-{{ collection.filters }}
 <div class="custom-filters">
-{{  collection.filters }}
+{{ collection.filters }}
+{{ "jisan rahman" }}
   {% for filter in collection.filters %}
     <div class="filter-group">
       
