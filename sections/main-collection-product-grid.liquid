@@ -117,8 +117,10 @@
         </aside>
       {%- endif -%}
       {% render 'custom-filters', collection:collection %}
+      {{ collection.filters }}
       {% for filter in collection.fitlers %}
         {{ filter.label }}
+        
       {% endfor %}
 
       <div
