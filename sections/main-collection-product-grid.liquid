@@ -117,11 +117,11 @@
         </aside>
       {%- endif -%}
       {% render 'custom-filters', collection:collection %}
-      <h1>{{ collection.filters }}</h1>
-      {% for filter in collection.fitlers %}
+      <h1>{{ collection.filters }}   {% for filter in collection.fitlers %}
         {{ filter.label }}
         
-      {% endfor %}
+      {% endfor %}</h1>
+    
 
       <div
         class="product-grid-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
