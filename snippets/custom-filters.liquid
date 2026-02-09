@@ -1,106 +1,74 @@
-
-{{ 'custom-filter.css' | asset_url | stylesheet_tag }}
-{{ 'custom-filter.js' | asset_url | script_tag }}
-
 <form method="get" action="{{ collection.url }}" class="collection-filters">
 
 <section class="section-2">
 
   {%- for filter in collection.filters -%}
 
-    {%- if filter.param_name == 'filter.p.product_type' -%}
-    <!-- PRODUKTE -->
     <div class="div-block">
+
+      <!-- FILTER HEADER -->
       <div class="div-block-2">
-        <div class="text-block">Produkte</div>
-        <img src="{{ 'Vector.png' | asset_url }}" class="image-2">
+        <div class="text-block">
+          {{ filter.label }}
+        </div>
+        <img
+          src="{{ 'Vector.png' | asset_url }}"
+          loading="lazy"
+          class="image-2"
+          alt=""
+        >
       </div>
 
-      <div>
-        {% for value in filter.values %}
-          <label class="w-radio">
-            <input
-              type="radio"
-              name="{{ filter.param_name }}"
-              value="{{ value.value }}"
-              {% if value.active %}checked{% endif %}
-              onchange="this.form.submit()"
-            >
-            <span class="w-form-label">{{ value.label }}</span>
-          </label>
-        {% endfor %}
+      <!-- FILTER OPTIONS -->
+      <div class="w-form">
+
+        {%- case filter.type -%}
+
+          {%- when 'list' -%}
+            {%- for value in filter.values -%}
+              <label class="w-radio">
+                <input
+                  type="checkbox"
+                  name="{{ value.param_name }}"
+                  value="{{ value.value }}"
+                  {% if value.active %}checked{% endif %}
+                  onchange="this.form.submit()"
+                >
+                <span class="w-form-label">
+                  {{ value.label }}
+                  {% if value.count > 0 %}
+                    ({{ value.count }})
+                  {% endif %}
+                </span>
+              </label>
+            {%- endfor -%}
+
+          {%- when 'price_range' -%}
+            <div class="form">
+              <input
+                type="number"
+                name="{{ filter.min_value.param_name }}"
+                value="{{ filter.min_value.value }}"
+                placeholder="Min"
+              >
+              <input
+                type="number"
+                name="{{ filter.max_value.param_name }}"
+                value="{{ filter.max_value.value }}"
+                placeholder="Max"
+              >
+              <button type="submit" class="button w-button">
+                Apply
+              </button>
+            </div>
+
+        {%- endcase -%}
+
       </div>
+
     </div>
-    {%- endif -%}
 
   {%- endfor -%}
-
-  <!-- KATEGORIE (METAFIELD) -->
-  <div class="div-block">
-    <div class="div-block-2">
-      <div class="text-block">Kategorie</div>
-      <img src="{{ 'Vector.png' | asset_url }}" class="image-2">
-    </div>
-
-    <div>
-      {% assign categories = "select,classic,Elite,Royal" | split: "," %}
-      {% for cat in categories %}
-        <label class="w-radio">
-          <input
-            type="radio"
-            name="filter.p.m.custom.kategorie"
-            value="{{ cat }}"
-            onchange="this.form.submit()"
-          >
-          <span class="w-form-label">{{ cat }}</span>
-        </label>
-      {% endfor %}
-    </div>
-  </div>
-
-  <!-- THC -->
-  <div class="div-block">
-    <div class="div-block-2">
-      <div class="text-block">THC</div>
-      <img src="{{ 'Vector.png' | asset_url }}" class="image-2">
-    </div>
-
-    <div>
-      <a
-        href="{{ collection.url }}?filter.p.m.custom.thc=10-17"
-        class="button w-button">
-        Low 10%-17%
-      </a>
-
-      <a
-        href="{{ collection.url }}?filter.p.m.custom.thc=18-30"
-        class="button w-button">
-        High 18%-30%
-      </a>
-    </div>
-  </div>
-
-  <!-- WIRKUNG -->
-  <div class="div-block">
-    <div class="div-block-2">
-      <div class="text-block">Wirkung</div>
-      <img src="{{ 'Vector.png' | asset_url }}" class="image-2">
-    </div>
-
-    <div>
-      <a
-        href="{{ collection.url }}?filter.p.m.custom.wirkung=Indica"
-        class="button w-button">
-        Indica
-      </a>
-
-      <a
-        href="{{ collection.url }}?filter.p.m.custom.wirkung=Sativa"
-        class="button w-button">
-        Sativa
-      </a>
-    </div>
-  </div>
 
 </section>
 
