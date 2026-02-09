@@ -7,53 +7,57 @@
 
   {%- for filter in collection.filters -%}
 
-    {%- unless filter.param_name contains 'price' or filter.param_name contains 'availability' -%}
+    <div class="div-block">
 
-      <div class="div-block">
+      <!-- Filter Header -->
+      <div class="div-block-2">
+        <div class="text-block">{{ filter.label }}</div>
+        <img
+          src="{{ 'Vector.png' | asset_url }}"
+          class="image-2"
+          alt=""
+          width="12"
+          height="6"
+        >
+      </div>
 
-        <!-- Filter Header -->
-        <div class="div-block-2">
-          <div class="text-block">
-            {{ filter.label }}
-          </div>
-          <img
-            src="{{ 'Vector.png' | asset_url }}"
-            class="image-2"
-            alt="vector image"
-            width="12"
-            height="6"
-          >
-        </div>
+      <div class="w-form">
 
-        <!-- Filter Values -->
-        <div class="w-form">
+        {%- for value in filter.values -%}
 
-          {%- if filter.type == 'list' -%}
-            {%- for value in filter.values -%}
-              <label class="w-radio">
-                <input
-                  type="checkbox"
-                  name="{{ value.param_name }}"
-                  value="{{ value.value }}"
-                  {% if value.active %}checked{% endif %}
-                  onchange="this.form.submit()"
-                >
-                <span class="w-form-label">
-                  {{ value.label }}
-                </span>
-              </label>
-            {%- endfor -%}
+          {%- if forloop.index <= 2 -%}
+            <!-- CHECKBOX -->
+            <label class="w-radio">
+              <input
+                type="checkbox"
+                name="{{ value.param_name }}"
+                value="{{ value.value }}"
+                {% if value.active %}checked{% endif %}
+                onchange="this.form.submit()"
+              >
+              <span class="w-form-label">{{ value.label }}</span>
+            </label>
+
+          {%- else -%}
+            <!-- BUTTON -->
+            <a
+              href="{{ value.url }}"
+              class="button w-button {% if value.active %}is-active{% endif %}"
+            >
+              {{ value.label }}
+            </a>
           {%- endif -%}
 
-        </div>
+        {%- endfor -%}
 
       </div>
 
-    {%- endunless -%}
+    </div>
 
   {%- endfor -%}
 
 </section>
 
 </form>
+
 
