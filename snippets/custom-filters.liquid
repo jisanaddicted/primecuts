@@ -7,22 +7,28 @@
 
   {%- for filter in collection.filters -%}
 
-    <div class="div-block">
+    {%- unless filter.param_name contains 'price' or filter.param_name contains 'availability' -%}
 
-      <!-- FILTER HEADER -->
-      <div class="div-block-2">
-        <div class="text-block">
-          {{ filter.label }}
+      <div class="div-block">
+
+        <!-- Filter Header -->
+        <div class="div-block-2">
+          <div class="text-block">
+            {{ filter.label }}
+          </div>
+          <img
+            src="{{ 'Vector.png' | asset_url }}"
+            class="image-2"
+            alt="vector image"
+            width="12"
+            height="6"
+          >
         </div>
-        
-      </div>
 
-      <!-- FILTER OPTIONS -->
-      <div class="w-form">
+        <!-- Filter Values -->
+        <div class="w-form">
 
-        {%- case filter.type -%}
-
-          {%- when 'list' -%}
+          {%- if filter.type == 'list' -%}
             {%- for value in filter.values -%}
               <label class="w-radio">
                 <input
@@ -34,40 +40,20 @@
                 >
                 <span class="w-form-label">
                   {{ value.label }}
-                  {% if value.count > 0 %}
-                    ({{ value.count }})
-                  {% endif %}
                 </span>
               </label>
             {%- endfor -%}
+          {%- endif -%}
 
-          {%- when 'price_range' -%}
-            <div class="form">
-              <input
-                type="number"
-                name="{{ filter.min_value.param_name }}"
-                value="{{ filter.min_value.value }}"
-                placeholder="Min"
-              >
-              <input
-                type="number"
-                name="{{ filter.max_value.param_name }}"
-                value="{{ filter.max_value.value }}"
-                placeholder="Max"
-              >
-              <button type="submit" class="button w-button">
-                Apply
-              </button>
-            </div>
-
-        {%- endcase -%}
+        </div>
 
       </div>
 
-    </div>
+    {%- endunless -%}
 
   {%- endfor -%}
 
 </section>
 
 </form>
+
