@@ -32,7 +32,7 @@
             {%- for value in filter.values -%}
               <label class="w-radio">
                 <input
-                  type="checkbox"
+                  type="button"
                   name="{{ value.param_name }}"
                   value="{{ value.value }}"
                   {% if value.active %}checked{% endif %}
