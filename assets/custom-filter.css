@@ -1,37 +1,82 @@
-.custom-filters {
+.section-2 {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  grid-column-gap: 32px;
+  grid-row-gap: 32px;
+  background-color: #eff2f3;
+  width: 1143px;
 }
 
-.filter-group {
-  position: relative;
+.div-block {
+  width: 136px;
 }
 
-.filter-title {
-  padding: 8px 14px;
-  border-radius: 20px;
-  background: #f3f3f3;
-  font-weight: 600;
-}
-
-.filter-options {
+.div-block-2 {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
+  justify-content: center;
+  align-items: center;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  width: 136px;
+  height: 41px;
+  margin-bottom: 16px;
+  border: 1px solid #d9dce0;
+  border-radius: 8px;
 }
 
-.filter-btn {
-  padding: 6px 12px;
-  border-radius: 18px;
-  border: 1px solid #ddd;
-  background: #fff;
+.text-block {
+  font-family: Satoshi, Arial, sans-serif;
+  font-size: 20px;
+}
+
+.image-2 {
+  width: 12px;
+  height: 6px;
+}
+
+/* RADIO UI */
+.w-radio {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.w-form-formradioinput--inputType-custom {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.w-form-formradioinput--inputType-custom.w--redirected-checked {
+  border-width: 4px;
+  border-color: #3898ec;
+}
+
+.w-form-label {
+  font-family: Satoshi, Arial, sans-serif;
+  font-size: 14px;
   cursor: pointer;
 }
 
-.filter-btn.active {
-  background: #000;
-  color: #fff;
-  border-color: #000;
+/* BUTTON FILTERS */
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 33px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #1a1a1a;
+  font-family: Satoshi, Arial, sans-serif;
+  text-decoration: none;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+}
+
