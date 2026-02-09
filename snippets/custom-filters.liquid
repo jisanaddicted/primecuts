@@ -7,57 +7,53 @@
 
   {%- for filter in collection.filters -%}
 
-    <div class="div-block">
+    {%- unless filter.param_name contains 'price' or filter.param_name contains 'availability' -%}
 
-      <!-- Filter Header -->
-      <div class="div-block-2">
-        <div class="text-block">{{ filter.label }}</div>
-        <img
-          src="{{ 'Vector.png' | asset_url }}"
-          class="image-2"
-          alt=""
-          width="12"
-          height="6"
-        >
-      </div>
+      <div class="div-block">
 
-      <div class="w-form">
+        <!-- Filter Header -->
+        <div class="div-block-2">
+          <div class="text-block">
+            {{ filter.label }}
+          </div>
+          <img
+            src="{{ 'Vector.png' | asset_url }}"
+            class="image-2"
+            alt="vector image"
+            width="12"
+            height="6"
+          >
+        </div>
 
-        {%- for value in filter.values -%}
+        <!-- Filter Values -->
+        <div class="w-form">
 
-          {%- if forloop.index <= 2 -%}
-            <!-- CHECKBOX -->
-            <label class="w-radio">
-              <input
-                type="checkbox"
-                name="{{ value.param_name }}"
-                value="{{ value.value }}"
-                {% if value.active %}checked{% endif %}
-                onchange="this.form.submit()"
-              >
-              <span class="w-form-label">{{ value.label }}</span>
-            </label>
-
-          {%- else -%}
-            <!-- BUTTON -->
-            <a
-              href="{{ value.url }}"
-              class="button w-button {% if value.active %}is-active{% endif %}"
-            >
-              {{ value.label }}
-            </a>
+          {%- if filter.type == 'list' -%}
+            {%- for value in filter.values -%}
+              <label class="w-radio">
+                <input
+                  type="checkbox"
+                  name="{{ value.param_name }}"
+                  value="{{ value.value }}"
+                  {% if value.active %}checked{% endif %}
+                  onchange="this.form.submit()"
+                >
+                <span class="w-form-label">
+                  {{ value.label }}
+                </span>
+              </label>
+            {%- endfor -%}
           {%- endif -%}
 
-        {%- endfor -%}
+        </div>
 
       </div>
 
-    </div>
+    {%- endunless -%}
 
   {%- endfor -%}
 
 </section>
 
 </form>
-
 
