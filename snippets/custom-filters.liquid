@@ -3,13 +3,14 @@
 
 <form method="get" action="{{ collection.url }}" class="collection-filters">
   <section class="section-2">
-    {%- for filter in collection.filters -%}
-      {%- unless filter.param_name contains 'price' or filter.param_name contains 'availability' -%}
+    {% assign filters = shop.metaobjects.filter_definition.values %}
+    {%- for filter in filters  -%}
+      
         <div class="div-block">
           <!-- Filter Header -->
           <div class="div-block-2">
             <div class="text-block">
-              {{ filter.label }}
+              {{ filter.title }}
             </div>
             <img
               src="{{ 'Vector.png' | asset_url }}"
@@ -21,20 +22,20 @@
           </div>
 
           <!-- Filter Values -->
-          <div class="w-form">
-            {%- if filter.type == 'list' -%}
-              {%- for value in filter.values -%}
+          {% case filters.ui_type %}
+           {% when 'button' %}
+            <div class="w-form">
                 <a
-                  href="{{ value.url }}"
+                  href="{{ filter.values.value }}"
                   class="button w-button {% if value.active %}is-active{% endif %}"
                 >
-                  {{ value.label }}
+                  {{ filter.values.value }}
                 </a>
-              {%- endfor -%}
-            {%- endif -%}
-          </div>
+            </div>
+          {% endcase %}
+          
         </div>
-      {%- endunless -%}
+      
     {%- endfor -%}
   </section>
 </form>
