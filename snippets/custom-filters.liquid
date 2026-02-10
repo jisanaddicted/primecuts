@@ -16,7 +16,7 @@
         {% if filter.ui_type == 'button' %}
           <div class="w-form">
 
-            {% for value in filter.values.value %}
+            {% for value in filter.values %}
               <a
                 href="{{ collection.url }}?filter.p.m.custom.{{ filter.handle }}={{ value | handle }}"
                 class="button w-button"
