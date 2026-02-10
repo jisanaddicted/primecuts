@@ -3,7 +3,8 @@
   grid-column-gap: 32px;
   grid-row-gap: 32px;
   background-color: #eff2f3;
-  width: 1143px;
+  width:100%;
+
 }
 
 .div-block {
