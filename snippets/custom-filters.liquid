@@ -30,7 +30,7 @@
                   href="#"
                   class="button w-button {% if value.active %}is-active{% endif %}"
                 >
-                  {{ filter.values.value.value }}
+                  {{ filter.values.value.value | json }}
                 </a>
             </div>
           {% endcase %}
