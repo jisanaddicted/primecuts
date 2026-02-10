@@ -20,8 +20,8 @@
           
           <div class="w-form">
             
-            {{ filter.values }}
-            {% for value in filter.values %}
+            
+            {% for value in filter.values.value %}
               {{"done" }}
               <a
                 href="{{ collection.url }}?filter.p.m.custom.{{ filter.handle }}={{ value | handle }}"
