@@ -3,39 +3,53 @@
 
 <form method="get" action="{{ collection.url }}" class="collection-filters">
   <section class="section-2">
+
     {% assign filters = shop.metaobjects.filter_definition.values %}
-    {%- for filter in filters  -%}
-      
-        <div class="div-block">
-          <!-- Filter Header -->
-          <div class="div-block-2">
-            <div class="text-block">
-              {{ filter.title }}
-            </div>
-            <img
-              src="{{ 'Vector.png' | asset_url }}"
-              class="image-2"
-              alt="vector image"
-              width="12"
-              height="6"
-            >
+
+    {% for filter in filters %}
+      <div class="div-block">
+
+        <!-- Filter Header -->
+        <div class="div-block-2">
+          <div class="text-block">
+            {{ filter.title }}
           </div>
-          
-          <!-- Filter Values -->
-          {% case filter.ui_type %}
-           {% when 'button' %}
-            <div class="w-form">
-                <a
-                  href="{{ filter.values.value }}"
-                  class="button w-button {% if value.active %}is-active{% endif %}"
-                >
-                  {{ filter.values.value }}
-                </a>
-            </div>
-          {% endcase %}
-          
+          <img
+            src="{{ 'Vector.png' | asset_url }}"
+            class="image-2"
+            alt="vector image"
+            width="12"
+            height="6"
+          >
         </div>
-      
-    {%- endfor -%}
+
+        <!-- Filter Values -->
+        {% case filter.ui_type.value %}
+
+          {% when 'button' %}
+            <div class="w-form filter-buttons">
+
+              {% for item in filter.values.value %}
+
+                {% assign param = 'filter.p.m.custom.' | append: filter.handle | append: '=' | append: item.value %}
+                {% assign is_active = request.query_string contains item.value %}
+
+                <a
+                  href="{{ collection.url }}?{{ param }}"
+                  class="button w-button {% if is_active %}is-active{% endif %}"
+                >
+                  {{ item.label }}
+                </a>
+
+              {% endfor %}
+
+            </div>
+
+        {% endcase %}
+
+      </div>
+    {% endfor %}
+
   </section>
 </form>
+
