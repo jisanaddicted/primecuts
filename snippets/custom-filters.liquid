@@ -3,40 +3,33 @@
 
 <form method="get" action="{{ collection.url }}" class="collection-filters">
   <section class="section-2">
-    {% assign filters = shop.metaobjects.filter_definition.values %}
-    {%- for filter in filters  -%}
-      
-        <div class="div-block">
-          <!-- Filter Header -->
-          <div class="div-block-2">
-            <div class="text-block">
-              {{ filter.title }}
-            </div>
-            <img
-              src="{{ 'Vector.png' | asset_url }}"
-              class="image-2"
-              alt="vector image"
-              width="12"
-              height="6"
-            >
-          </div>
-          
-          <!-- Filter Values -->
 
-          {% case filter.ui_type %}
-           {% when 'button' %}
-            <div class="w-form">
-                <a
-                  href="#"
-                  class="button w-button {% if value.active %}is-active{% endif %}"
-                >
-                  {{ filter.values.label}}
-                </a>
-            </div>
-          {% endcase %}
-          
+    {% assign filters = shop.metaobjects.filter_definition.values %}
+
+    {% for filter in filters %}
+      <div class="div-block">
+
+        <div class="div-block-2">
+          <div class="text-block">{{ filter.title }}</div>
         </div>
-      
-    {%- endfor -%}
+
+        {% if filter.ui_type.value == 'button' %}
+          <div class="w-form">
+
+            {% for value in filter.values.value %}
+              <a
+                href="{{ collection.url }}?filter.p.m.custom.{{ filter.handle }}={{ value | handle }}"
+                class="button w-button"
+              >
+                {{ value }}
+              </a>
+            {% endfor %}
+
+          </div>
+        {% endif %}
+
+      </div>
+    {% endfor %}
+
   </section>
 </form>
