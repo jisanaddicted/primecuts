@@ -17,11 +17,12 @@
 
         {% if filter.ui_type.value.first == 'button' %}
 
-          {{ "jisan" }}
+          
           <div class="w-form">
-            {{"jisan" }}
+            
 
             {% for value in filter.values %}
+              {{"done" }}
               <a
                 href="{{ collection.url }}?filter.p.m.custom.{{ filter.handle }}={{ value | handle }}"
                 class="button w-button"
