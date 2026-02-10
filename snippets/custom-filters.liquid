@@ -22,6 +22,7 @@
           </div>
           
           <!-- Filter Values -->
+
           {% case filter.ui_type %}
            {% when 'button' %}
             <div class="w-form">
@@ -29,7 +30,7 @@
                   href="#"
                   class="button w-button {% if value.active %}is-active{% endif %}"
                 >
-                  {{ filter.values.value }}
+                  {{ filter.values.value | json }}
                 </a>
             </div>
           {% endcase %}
