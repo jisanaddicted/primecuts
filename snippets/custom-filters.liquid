@@ -20,9 +20,9 @@
               height="6"
             >
           </div>
-          {{ filters.ui_type }}
+          {{ filter.ui_type }}
           <!-- Filter Values -->
-          {% case filters.ui_type %}
+          {% case filter.ui_type %}
            {% when 'button' %}
             <div class="w-form">
                 <a
