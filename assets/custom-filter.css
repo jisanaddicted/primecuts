@@ -73,6 +73,8 @@
   color: #1a1a1a;
   font-family: Satoshi, Arial, sans-serif;
   text-decoration: none;
+  border-radius:8px;
+  border-style:none;
 }
 
 .form {
