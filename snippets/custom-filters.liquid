@@ -13,7 +13,7 @@
           <div class="text-block">{{ filter.title }}</div>
         </div>
 
-        {% if filter.ui_type.value == 'button' %}
+        {% if filter.ui_type == 'button' %}
           <div class="w-form">
 
             {% for value in filter.values.value %}
