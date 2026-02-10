@@ -12,9 +12,11 @@
         <div class="div-block-2">
           <div class="text-block">{{ filter.title }}</div>
         </div>
+        {{filter.ui_type }}
 
         {% if filter.ui_type == 'button' %}
           <div class="w-form">
+            {{"jisan" }}
 
             {% for value in filter.values %}
               <a
