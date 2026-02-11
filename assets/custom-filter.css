@@ -123,3 +123,16 @@
   background: black;
   color: white;
 }
+.radio-filter-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.radio-filter-option.active span {
+  color: #fff;
+  background: #000;
+  border-radius: 8px;
+  padding: 4px 10px;
+}

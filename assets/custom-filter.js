@@ -1,17 +1,115 @@
-document.addEventListener('click', function (e) {
-  const btn = e.target.closest('.filter-btn');
-  if (!btn) return;
+const updateCustomFilterState = (container, param, value) => {
+  if (!param) return;
 
-  const param = btn.dataset.param;
-  const value = btn.dataset.value;
+  const triggers = container.querySelectorAll(
+    `[data-custom-filter-trigger][data-param="${CSS.escape(param)}"]`
+  );
 
-  const url = new URL(window.location.href);
+  triggers.forEach((trigger) => {
+    const isActive = trigger.dataset.value === value;
+    const isRadio = trigger.matches('input[type="radio"]');
 
-  if (btn.classList.contains('active')) {
-    url.searchParams.delete(param);
-  } else {
-    url.searchParams.set(param, value);
+    if (isRadio) {
+      trigger.checked = isActive;
+
+      const wrapper = trigger.closest('.radio-filter-option');
+      if (wrapper) {
+        wrapper.classList.toggle('active', isActive);
+      }
+    } else {
+      trigger.classList.toggle('active', isActive);
+    }
+  });
+};
+
+const renderUpdatedCollection = async (url) => {
+  const response = await fetch(url, {
+    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+  });
+
+  if (!response.ok) {
+    throw new Error('Unable to update filters');
   }
 
-  window.location.href = url.toString();
+  const htmlText = await response.text();
+  const parser = new DOMParser();
+  const nextDocument = parser.parseFromString(htmlText, 'text/html');
+
+  const nextGrid = nextDocument.querySelector('#ProductGridContainer');
+  const currentGrid = document.querySelector('#ProductGridContainer');
+
+  if (nextGrid && currentGrid) {
+    currentGrid.innerHTML = nextGrid.innerHTML;
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const filtersContainer = document.querySelector('.collection-filters');
+  if (!filtersContainer) return;
+
+  // Toggle dropdown
+  filtersContainer.addEventListener('click', async (event) => {
+    const header = event.target.closest('.div-block-2');
+
+    if (header) {
+      event.preventDefault();
+      header.parentElement.classList.toggle('open');
+      return;
+    }
+
+    const trigger = event.target.closest('[data-custom-filter-trigger]');
+    if (!trigger || trigger.matches('input[type="radio"]')) return;
+
+    event.preventDefault();
+
+    const { param, value } = trigger.dataset;
+    if (!param) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const isActive = params.get(param) === value;
+
+    if (isActive) {
+      params.delete(param);
+      updateCustomFilterState(filtersContainer, param, '');
+    } else {
+      params.set(param, value);
+      updateCustomFilterState(filtersContainer, param, value);
+    }
+
+    const queryString = params.toString();
+    const nextUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ''}`;
+
+    try {
+      await renderUpdatedCollection(nextUrl);
+      window.history.replaceState({}, '', nextUrl);
+    } catch (error) {
+      window.location.href = nextUrl;
+    }
+  });
+
+  // Radio input change
+  filtersContainer.addEventListener('change', async (event) => {
+    const trigger = event.target.closest(
+      'input[type="radio"][data-custom-filter-trigger]'
+    );
+
+    if (!trigger) return;
+
+    const { param, value } = trigger.dataset;
+    if (!param) return;
+
+    const params = new URLSearchParams(window.location.search);
+    params.set(param, value);
+
+    updateCustomFilterState(filtersContainer, param, value);
+
+    const nextUrl = `${window.location.pathname}?${params.toString()}`;
+
+    try {
+      await renderUpdatedCollection(nextUrl);
+      window.history.replaceState({}, '', nextUrl);
+    } catch (error) {
+      window.location.href = nextUrl;
+    }
+  });
 });
