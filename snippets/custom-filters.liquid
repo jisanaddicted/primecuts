@@ -6,6 +6,7 @@
     {% assign filters = shop.metaobjects.filterdefination3.values %}
 
     {% for filter in filters %}
+      {% assign filter_handle = filter.handle.value | default: filter.handle %}
       <div class="div-block">
         <div class="div-block-2">
           <div class="text-block">{{ filter.title }}</div>
@@ -20,7 +21,7 @@
 
         {% if filter.ui_type.value.first == 'button' %}
           <div class="w-form">
-            {% assign param_name = 'filter.p.m.custom.' | append: filter.handle %}
+            {% assign param_name = 'filter.p.m.custom.' | append: filter_handle %}
             {% assign active_value = request.params[param_name] %}
 
             {% for value in filter.values.value %}
@@ -39,7 +40,7 @@
           </div>
         {% elsif filter.ui_type.value.first == 'radio' %}
           <div class="w-form">
-            {% assign param_name = 'filter.p.m.custom.' | append: filter.handle %}
+            {% assign param_name = 'filter.p.m.custom.' | append: filter_handle %}
             {% assign active_value = request.params[param_name] %}
 
             {% for value in filter.values.value %}
