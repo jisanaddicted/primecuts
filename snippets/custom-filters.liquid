@@ -33,7 +33,7 @@
               </a>
             {% endfor %}
           </div>
-        {% elsif filter.ui_type.value.first == 'radio_button' or filter.ui_type.value.first == 'radio' %}
+        {% elsif filter.ui_type.value.first == 'radio' %}
           <div class="w-form">
             {% assign param_name = 'filter.p.m.custom.' | append: filter.handle %}
             {% assign active_value = request.params[param_name] %}
