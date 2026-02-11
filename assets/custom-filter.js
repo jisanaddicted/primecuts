@@ -33,28 +33,11 @@ const updateCustomFilterState = (container, param, value) => {
   }
 };
 
-const collectCombinedParams = (container) => {
-  const params = new URLSearchParams(window.location.search);
-  const forms = container.querySelectorAll('[data-custom-filter-form]');
-
-  forms.forEach(form => {
-    const param = form.dataset.customFilterParam;
-    if (!param) return;
-
-    params.delete(param);
-
-    const hiddenInput = form.querySelector('[data-custom-filter-input]');
-    if (hiddenInput) {
-      const values = splitFilterValues(hiddenInput.value);
-      if (values.length) params.set(param, values.join(','));
-      return;
-    }
-
-    const checkedRadio = form.querySelector('input[type="radio"]:checked');
-    if (checkedRadio) params.set(param, checkedRadio.value);
-  });
-
-  return params;
+const syncCustomFilterState = (state, param, value) => {
+  if (!param) return;
+  const normalizedValue = splitFilterValues(value).join(',');
+  if (normalizedValue) state.set(param, normalizedValue);
+  else state.delete(param);
 };
 
 const renderUpdatedCollection = async (url) => {
@@ -71,8 +54,14 @@ const renderUpdatedCollection = async (url) => {
   if (nextGrid && currentGrid) currentGrid.innerHTML = nextGrid.innerHTML;
 };
 
-const applyAllFilters = async (container) => {
-  const params = collectCombinedParams(container);
+const applyAllFilters = async (customFilterState, customFilterParams) => {
+  const params = new URLSearchParams(window.location.search);
+
+  customFilterParams.forEach(param => params.delete(param));
+  customFilterState.forEach((value, param) => {
+    if (value) params.set(param, value);
+  });
+
   const queryString = params.toString();
   const nextUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ''}`;
 
@@ -88,22 +77,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const filtersContainer = document.querySelector('[data-custom-filters-container]');
   if (!filtersContainer) return;
 
+  const customFilterState = new Map();
+  const customFilterParams = new Set();
+
   // Initialize filter states from URL
   const forms = filtersContainer.querySelectorAll('[data-custom-filter-form]');
   forms.forEach(form => {
     const param = form.dataset.customFilterParam;
     if (!param) return;
+    customFilterParams.add(param);
 
     const hiddenInput = form.querySelector('[data-custom-filter-input]');
-    if (hiddenInput) {
-      const queryValue = new URLSearchParams(window.location.search).get(param);
-      const initialValue = queryValue ?? hiddenInput.value;
-      updateCustomFilterState(filtersContainer, param, initialValue || '');
-      return;
+    const queryValue = new URLSearchParams(window.location.search).get(param);
+
+    let initialValue = '';
+    if (hiddenInput) initialValue = queryValue ?? hiddenInput.value;
+    else {
+      const checkedRadio = form.querySelector('input[type="radio"]:checked');
+      if (checkedRadio) initialValue = checkedRadio.value;
     }
 
-    const checkedRadio = form.querySelector('input[type="radio"]:checked');
-    if (checkedRadio) updateCustomFilterState(filtersContainer, param, checkedRadio.value);
+    updateCustomFilterState(filtersContainer, param, initialValue);
+    syncCustomFilterState(customFilterState, param, initialValue);
   });
 
   // Button clicks & dropdown toggle
@@ -129,8 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentValues.has(value)) currentValues.delete(value);
     else currentValues.add(value);
 
-    updateCustomFilterState(filtersContainer, param, Array.from(currentValues).join(','));
-    await applyAllFilters(filtersContainer);
+    const nextValue = Array.from(currentValues).join(',');
+    updateCustomFilterState(filtersContainer, param, nextValue);
+    syncCustomFilterState(customFilterState, param, nextValue);
+    await applyAllFilters(customFilterState, customFilterParams);
   });
 
   // Radio changes
@@ -142,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!param) return;
 
     updateCustomFilterState(filtersContainer, param, value || '');
-    await applyAllFilters(filtersContainer);
+    syncCustomFilterState(customFilterState, param, value || '');
+    await applyAllFilters(customFilterState, customFilterParams);
   });
 });
