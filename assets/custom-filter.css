@@ -106,7 +106,17 @@
 
 .div-block.open .w-form {
   display: flex;
+
 }
+.dropdown-icon {
+  transition: transform 0.25s ease;
+  transform: rotate(0deg);
+}
+
+.div-block.open .dropdown-icon {
+  transform: rotate(180deg);
+}
+
 
 .button-prime.active {
   background: black;
