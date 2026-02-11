@@ -1,41 +1,40 @@
-
 {{ 'custom-filter.css' | asset_url | stylesheet_tag }}
 
 <form method="get" action="{{ collection.url }}" class="collection-filters">
   <section class="section-2">
-
     {% assign filters = shop.metaobjects.filterdefination3.values %}
 
     {% for filter in filters %}
       <div class="div-block">
         <div class="div-block-2">
           <div class="text-block">{{ filter.title }}</div>
-          <img class="dropdown-icon" src="{{ 'Vector.png' | asset_url }}" alt="Description of image" width="12" height="6">
+          <img
+            class="dropdown-icon"
+            src="{{ 'Vector.png' | asset_url }}"
+            alt="Description of image"
+            width="12"
+            height="6"
+          >
         </div>
-        
-        
 
         {% if filter.ui_type.value.first == 'button' %}
-
-          
           <div class="w-form">
-            
-            
+            {% assign param_name = 'filter.p.m.custom.' | append: filter.handle %}
+            {% assign active_value = request.params[param_name] %}
+
             {% for value in filter.values.value %}
-              
+              {% assign value_handle = value | handle %}
+
               <a
-                href="{{ collection.url }}?filter.p.m.custom.{{ filter.handle }}={{ value | handle }}"
-                class="button-prime w-button"
+                href="{{ collection.url }}?{{ request.query_string | remove: param_name | append: '&' | append: param_name | append: '=' | append: value_handle }}"
+                class="button-prime w-button {% if active_value == value_handle %}active{% endif %}"
               >
                 {{ value }}
               </a>
             {% endfor %}
-
           </div>
         {% endif %}
-
       </div>
     {% endfor %}
-
   </section>
 </form>
