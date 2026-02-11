@@ -100,3 +100,15 @@
   font-family: Satoshi, Arial, sans-serif;
   display: inline-flex;
 }
+.w-form {
+  display: none;
+}
+
+.div-block.open .w-form {
+  display: block;
+}
+
+.button-prime.active {
+  background: black;
+  color: white;
+}

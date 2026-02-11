@@ -37,4 +37,11 @@
       </div>
     {% endfor %}
   </section>
+  <script>
+    document.querySelectorAll('.div-block-2').forEach((header) => {
+      header.addEventListener('click', function () {
+        this.parentElement.classList.toggle('open');
+      });
+    });
+  </script>
 </form>
