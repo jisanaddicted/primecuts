@@ -33,6 +33,28 @@
               </a>
             {% endfor %}
           </div>
+        {% elsif filter.ui_type.value.first == 'radio_button' or filter.ui_type.value.first == 'radio' %}
+          <div class="w-form">
+            {% assign param_name = 'filter.p.m.custom.' | append: filter.handle %}
+            {% assign active_value = request.params[param_name] %}
+
+            {% for value in filter.values.value %}
+              {% assign value_handle = value | handle %}
+
+              <label class="radio-filter-option">
+                <input
+                  type="radio"
+                  name="{{ param_name }}"
+                  value="{{ value_handle }}"
+                  {% if active_value == value_handle %}
+                    checked
+                  {% endif %}
+                  onchange="this.form.submit()"
+                >
+                <span>{{ value }}</span>
+              </label>
+            {% endfor %}
+          </div>
         {% endif %}
       </div>
     {% endfor %}
