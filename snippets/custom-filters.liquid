@@ -1,4 +1,5 @@
 {{ 'custom-filter.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'custom-filter.js' | asset_url }}" defer="defer"></script>
 
 <form method="get" action="{{ collection.url }}" class="collection-filters">
   <section class="section-2">
@@ -25,12 +26,15 @@
             {% for value in filter.values.value %}
               {% assign value_handle = value | handle %}
 
-              <a
-                href="{{ collection.url }}?{{ request.query_string | remove: param_name | append: '&' | append: param_name | append: '=' | append: value_handle }}"
+              <button
+                type="button"
+                data-custom-filter-trigger
+                data-param="{{ param_name }}"
+                data-value="{{ value_handle }}"
                 class="button-prime w-button {% if active_value == value_handle %}active{% endif %}"
               >
                 {{ value }}
-              </a>
+              </button>
             {% endfor %}
           </div>
         {% elsif filter.ui_type.value.first == 'radio' %}
@@ -41,15 +45,18 @@
             {% for value in filter.values.value %}
               {% assign value_handle = value | handle %}
 
-              <label class="radio-filter-option">
+              <label class="radio-filter-option {% if active_value == value_handle %}active{% endif %}">
                 <input
                   type="radio"
                   name="{{ param_name }}"
                   value="{{ value_handle }}"
+                  data-custom-filter-trigger
+                  data-param="{{ param_name }}"
+                  data-value="{{ value_handle }}"
                   {% if active_value == value_handle %}
                     checked
                   {% endif %}
-                  onchange="this.form.submit()"
+                  
                 >
                 <span>{{ value }}</span>
               </label>
@@ -59,11 +66,5 @@
       </div>
     {% endfor %}
   </section>
-  <script>
-    document.querySelectorAll('.div-block-2').forEach((header) => {
-      header.addEventListener('click', function () {
-        this.parentElement.classList.toggle('open');
-      });
-    });
-  </script>
+  
 </form>
