@@ -105,7 +105,7 @@
 }
 
 .div-block.open .w-form {
-  display: block;
+  display: flex;
 }
 
 .button-prime.active {
