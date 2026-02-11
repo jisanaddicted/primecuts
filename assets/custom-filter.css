@@ -41,6 +41,11 @@
   align-items: center;
   margin-bottom: 8px;
 }
+.w-form{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
 
 .w-form-formradioinput--inputType-custom {
   width: 12px;
