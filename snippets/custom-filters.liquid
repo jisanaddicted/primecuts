@@ -1,71 +1,85 @@
 {{ 'custom-filter.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'custom-filter.js' | asset_url }}" defer="defer"></script>
 
-<form method="get" action="{{ collection.url }}" class="collection-filters">
+<div class="collection-filters" data-custom-filters-container>
   <section class="section-2">
     {% assign filters = shop.metaobjects.filterdefination3.values %}
 
     {% for filter in filters %}
       {% assign filter_handle = filter.handle.value | default: filter.handle %}
-      <div class="div-block">
-        <div class="div-block-2">
-          <div class="text-block">{{ filter.title }}</div>
-          <img
-            class="dropdown-icon"
-            src="{{ 'Vector.png' | asset_url }}"
-            alt="Description of image"
-            width="12"
-            height="6"
-          >
-        </div>
+      {% assign param_name = 'filter.p.m.custom.' | append: filter_handle %}
+      {% assign active_value = request.params[param_name] %}
 
-        {% if filter.ui_type.value.first == 'button' %}
-          <div class="w-form">
-            {% assign param_name = 'filter.p.m.custom.' | append: filter_handle %}
-            {% assign active_value = request.params[param_name] %}
-
-            {% for value in filter.values.value %}
-              {% assign value_handle = value | handle %}
-
-              <button
-                type="button"
-                data-custom-filter-trigger
-                data-param="{{ param_name }}"
-                data-value="{{ value_handle }}"
-                class="button-prime w-button {% if active_value == value_handle %}active{% endif %}"
-              >
-                {{ value }}
-              </button>
-            {% endfor %}
+      <form
+        method="get"
+        action="{{ collection.url }}"
+        class="collection-filter-form"
+        data-custom-filter-form
+        data-custom-filter-param="{{ param_name }}"
+      >
+        <div class="div-block">
+          <div class="div-block-2">
+            <div class="text-block">{{ filter.title }}</div>
+            <img
+              class="dropdown-icon"
+              src="{{ 'Vector.png' | asset_url }}"
+              alt="Dropdown icon"
+              width="12"
+              height="6"
+            >
           </div>
-        {% elsif filter.ui_type.value.first == 'radio' %}
-          <div class="w-form">
-            {% assign param_name = 'filter.p.m.custom.' | append: filter_handle %}
-            {% assign active_value = request.params[param_name] %}
 
-            {% for value in filter.values.value %}
-              {% assign value_handle = value | handle %}
+          {% if filter.ui_type.value.first == 'button' %}
+            <div class="w-form">
 
-              <label class="radio-filter-option {% if active_value == value_handle %}active{% endif %}">
-                <input
-                  type="radio"
-                  name="{{ param_name }}"
-                  value="{{ value_handle }}"
+              <!-- Hidden input that JS will update -->
+              <input
+                type="hidden"
+                name="{{ param_name }}"
+                value="{{ active_value }}"
+                data-custom-filter-input
+              >
+
+              {% for value in filter.values.value %}
+                {% assign value_handle = value | handle %}
+
+                <button
+                  type="button"
                   data-custom-filter-trigger
                   data-param="{{ param_name }}"
                   data-value="{{ value_handle }}"
-                  {% if active_value == value_handle %}
-                    checked
-                  {% endif %}
-                  
+                  class="button-prime w-button {% if active_value == value_handle %}active{% endif %}"
                 >
-                <span>{{ value }}</span>
-              </label>
-            {% endfor %}
-          </div>
-        {% endif %}
-      </div>
+                  {{ value }}
+                </button>
+              {% endfor %}
+            </div>
+
+          {% elsif filter.ui_type.value.first == 'radio' %}
+            <div class="w-form">
+              {% for value in filter.values.value %}
+                {% assign value_handle = value | handle %}
+
+                <label class="radio-filter-option {% if active_value == value_handle %}active{% endif %}">
+                  <input
+                    type="radio"
+                    name="{{ param_name }}"
+                    value="{{ value_handle }}"
+                    data-custom-filter-trigger
+                    data-param="{{ param_name }}"
+                    data-value="{{ value_handle }}"
+                    {% if active_value == value_handle %}
+                      checked
+                    {% endif %}
+                  >
+                  <span>{{ value }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </form>
+
     {% endfor %}
   </section>
-  
-</form>
+</div>
