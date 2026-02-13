@@ -115,7 +115,7 @@
 }
 
 .div-block.open .dropdown-icon {
-  transform: rotate(270deg);
+  transform: rotate(180deg);
 }
 
 
