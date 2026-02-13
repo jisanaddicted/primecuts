@@ -1,164 +1,191 @@
-// Helper: split comma values safely
+// -----------------------------
+// Helper: Split comma values safely
+// -----------------------------
 const splitFilterValues = (value) => {
   if (!value) return [];
-  return value.split(',').map(v => v.trim()).filter(Boolean);
+  return value
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
 };
 
-// Update active UI state
-const updateCustomFilterState = (container, param, value) => {
-  const selectedValues = new Set(splitFilterValues(value));
+// -----------------------------
+// Custom Filters Class
+// -----------------------------
+class CustomFilters {
+  constructor(container) {
+    this.container = container;
 
-  const triggers = container.querySelectorAll(
-    `[data-custom-filter-trigger][data-param="${CSS.escape(param)}"]`
-  );
+    this.onPopState = this.onPopState.bind(this);
+    this.onContainerClick = this.onContainerClick.bind(this);
+    this.onContainerChange = this.onContainerChange.bind(this);
 
-  triggers.forEach(trigger => {
-    const triggerValue = trigger.dataset.value;
-    const isActive = selectedValues.has(triggerValue);
-    const isRadio = trigger.matches('input[type="radio"]');
+    window.addEventListener('popstate', this.onPopState);
+    this.container.addEventListener('click', this.onContainerClick);
+    this.container.addEventListener('change', this.onContainerChange);
 
-    if (isRadio) {
-      trigger.checked = isActive;
-      const wrapper = trigger.closest('.radio-filter-option');
-      if (wrapper) wrapper.classList.toggle('active', isActive);
-    } else {
-      trigger.classList.toggle('active', isActive);
-    }
-  });
-
-  const hiddenInput = container.querySelector(
-    `[data-custom-filter-form][data-custom-filter-param="${CSS.escape(param)}"] [data-custom-filter-input]`
-  );
-
-  if (hiddenInput) {
-    hiddenInput.value = Array.from(selectedValues).join(',');
+    // Initialize state from current URL
+    this.syncFromUrl(window.location.search);
   }
-};
 
-// Render updated collection grid
-const renderUpdatedCollection = async (url) => {
-  const response = await fetch(url, {
-    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-  });
+  // -----------------------------
+  // Handle Back / Forward browser
+  // -----------------------------
+  onPopState(event) {
+    const searchParams =
+      event.state?.searchParams ||
+      window.location.search.replace(/^\?/, '');
 
-  if (!response.ok) throw new Error('Failed to fetch collection');
-
-  const htmlText = await response.text();
-  const parser = new DOMParser();
-  const nextDocument = parser.parseFromString(htmlText, 'text/html');
-
-  const nextGrid = nextDocument.querySelector('#ProductGridContainer');
-  const currentGrid = document.querySelector('#ProductGridContainer');
-
-  if (nextGrid && currentGrid) {
-    currentGrid.innerHTML = nextGrid.innerHTML;
+    this.syncFromUrl(searchParams);
+    this.renderPage(searchParams, false);
   }
-};
 
-// Apply all filters (MERGE LOGIC FIXED HERE)
-const applyAllFilters = async (container) => {
-  const params = new URLSearchParams(window.location.search);
-  const forms = container.querySelectorAll('[data-custom-filter-form]');
+  // -----------------------------
+  // Get Shopify Section ID
+  // -----------------------------
+  getSectionId() {
+    return document.getElementById('product-grid')?.dataset.id;
+  }
 
-  forms.forEach(form => {
-    const param = form.dataset.customFilterParam;
-    if (!param) return;
+  // -----------------------------
+  // Sync UI from URL
+  // -----------------------------
+  syncFromUrl(search) {
+    const searchParams = new URLSearchParams(search);
+    const forms = this.container.querySelectorAll(
+      '[data-custom-filter-form]'
+    );
 
-    params.delete(param);
+    forms.forEach((form) => {
+      const param = form.dataset.customFilterParam;
+      if (!param) return;
 
-    const hiddenInput = form.querySelector('[data-custom-filter-input]');
-    if (hiddenInput) {
-      const values = splitFilterValues(hiddenInput.value);
-      if (values.length) {
-        params.set(param, values.join(','));
+      const value = searchParams.get(param) || '';
+      this.updateFilterState(param, value);
+    });
+  }
+
+  // -----------------------------
+  // Update UI State
+  // -----------------------------
+  updateFilterState(param, value) {
+    const selectedValues = new Set(splitFilterValues(value));
+    const escapedParam = CSS.escape(param);
+
+    const triggers = this.container.querySelectorAll(
+      `[data-custom-filter-trigger][data-param="${escapedParam}"]`
+    );
+
+    triggers.forEach((trigger) => {
+      const triggerValue = trigger.dataset.value;
+      const isActive = selectedValues.has(triggerValue);
+      const isRadio = trigger.matches('input[type="radio"]');
+
+      if (isRadio) {
+        trigger.checked = isActive;
+        const label = trigger.closest('.radio-filter-option');
+        if (label) label.classList.toggle('active', isActive);
+      } else {
+        trigger.classList.toggle('active', isActive);
       }
-      return;
-    }
+    });
 
-    const checkedRadio = form.querySelector('input[type="radio"]:checked');
-    if (checkedRadio) {
-      params.set(param, checkedRadio.value);
-    }
-  });
+    const hiddenInput = this.container.querySelector(
+      `[data-custom-filter-form][data-custom-filter-param="${escapedParam}"] [data-custom-filter-input]`
+    );
 
-  const queryString = params.toString();
-  const nextUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ''}`;
-
-  try {
-    await renderUpdatedCollection(nextUrl);
-    window.history.replaceState({}, '', nextUrl);
-  } catch {
-    window.location.href = nextUrl;
-  }
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-  const filtersContainer = document.querySelector('[data-custom-filters-container]');
-  if (!filtersContainer) return;
-
-  // Initialize state from URL
-  const urlParams = new URLSearchParams(window.location.search);
-
-  const forms = filtersContainer.querySelectorAll('[data-custom-filter-form]');
-  forms.forEach(form => {
-    const param = form.dataset.customFilterParam;
-    if (!param) return;
-
-    const hiddenInput = form.querySelector('[data-custom-filter-input]');
     if (hiddenInput) {
-      const queryValue = urlParams.get(param) || '';
-      updateCustomFilterState(filtersContainer, param, queryValue);
+      hiddenInput.value = Array.from(selectedValues).join(',');
     }
+  }
 
-    const checkedRadio = form.querySelector('input[type="radio"]:checked');
-    if (checkedRadio) {
-      updateCustomFilterState(filtersContainer, param, checkedRadio.value);
-    }
-  });
+  // -----------------------------
+  // Collect ALL filters (MERGE)
+  // -----------------------------
+  collectSearchParams() {
+    const params = new URLSearchParams(window.location.search);
+    const forms = this.container.querySelectorAll(
+      '[data-custom-filter-form]'
+    );
 
-  // Dropdown toggle
-  filtersContainer.addEventListener('click', async (event) => {
-    const header = event.target.closest('.div-block-2');
-    if (header) {
-      event.preventDefault();
-      header.parentElement.classList.toggle('open');
+    forms.forEach((form) => {
+      const param = form.dataset.customFilterParam;
+      if (!param) return;
+
+      params.delete(param);
+
+      const hiddenInput = form.querySelector(
+        '[data-custom-filter-input]'
+      );
+
+      if (hiddenInput) {
+        const values = splitFilterValues(hiddenInput.value);
+        if (values.length) {
+          params.set(param, values.join(','));
+        }
+        return;
+      }
+
+      const checkedRadio = form.querySelector(
+        'input[type="radio"]:checked'
+      );
+      if (checkedRadio) {
+        params.set(param, checkedRadio.value);
+      }
+    });
+
+    return params.toString();
+  }
+
+  // -----------------------------
+  // Render AJAX product grid
+  // -----------------------------
+  async renderPage(searchParams, updateURL = true) {
+    const sectionId = this.getSectionId();
+
+    if (!sectionId) {
+      window.location.href = `${window.location.pathname}?${searchParams}`;
       return;
     }
 
-    const trigger = event.target.closest('[data-custom-filter-trigger]');
-    if (!trigger || trigger.matches('input[type="radio"]')) return;
+    const url = `${window.location.pathname}?section_id=${sectionId}${
+      searchParams ? `&${searchParams}` : ''
+    }`;
 
-    event.preventDefault();
+    try {
+      const response = await fetch(url, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      });
 
-    const { param, value } = trigger.dataset;
-    if (!param || !value) return;
+      if (!response.ok) throw new Error('Failed to fetch');
 
-    const form = trigger.closest('[data-custom-filter-form]');
-    const hiddenInput = form?.querySelector('[data-custom-filter-input]');
-    const currentValues = new Set(splitFilterValues(hiddenInput?.value));
+      const html = await response.text();
+      const parsed = new DOMParser().parseFromString(
+        html,
+        'text/html'
+      );
 
-    // TOGGLE VALUE (multi-select logic)
-    if (currentValues.has(value)) {
-      currentValues.delete(value);
-    } else {
-      currentValues.add(value);
+      const nextGrid =
+        parsed.getElementById('ProductGridContainer');
+      const currentGrid =
+        document.getElementById('ProductGridContainer');
+
+      if (!nextGrid || !currentGrid)
+        throw new Error('Missing grid');
+
+      currentGrid.innerHTML = nextGrid.innerHTML;
+
+      if (updateURL) {
+        const nextUrl = `${window.location.pathname}${
+          searchParams ? `?${searchParams}` : ''
+        }`;
+
+        history.pushState({ searchParams }, '', nextUrl);
+      }
+    } catch (error) {
+      window.location.href = `${window.location.pathname}?${searchParams}`;
     }
+  }
 
-    const nextValue = Array.from(currentValues).join(',');
-
-    updateCustomFilterState(filtersContainer, param, nextValue);
-    await applyAllFilters(filtersContainer);
-  });
-
-  // Radio change
-  filtersContainer.addEventListener('change', async (event) => {
-    const trigger = event.target.closest('input[type="radio"][data-custom-filter-trigger]');
-    if (!trigger) return;
-
-    const { param, value } = trigger.dataset;
-    if (!param) return;
-
-    updateCustomFilterState(filtersContainer, param, value || '');
-    await applyAllFilters(filtersContainer);
-  });
-});
+  // -----------------------------
+  // Click (Buttons / Mult
