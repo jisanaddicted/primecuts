@@ -1,18 +1,19 @@
-// 1. Select all icons
 const toggleIcons = document.querySelectorAll(".dropdown-icon");
 
 toggleIcons.forEach((icon) => {
   icon.addEventListener('click', () => {
-    // 2. Find the specific dropdown menu related to THIS icon
-    // We look for the parent "div-block" then find the "w-form" inside it
+    // Find the closest wrapper that has both the icon and the menu
     const parent = icon.closest('.div-block');
+    
+    // Toggle the 'open' class on that parent
+    parent.classList.toggle('open');
+    
+    // If you want the menu to show/hide at the same time:
     const dropdownui = parent.querySelector(".w-form");
-
-    // 3. Proper Toggle Logic
-    if (dropdownui.style.display === "block") {
-      dropdownui.style.display = "none";
-    } else {
+    if (parent.classList.contains('open')) {
       dropdownui.style.display = "block";
+    } else {
+      dropdownui.style.display = "none";
     }
   });
 });
