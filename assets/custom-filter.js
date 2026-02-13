@@ -5,9 +5,4 @@ toggleiconEl.addEventListener('click', () => {
     
 } 
 });
-toggleiconEl.addEventListener('click', () => {
-    if (dropdownui.style.display == "block"){
-    dropdownui.style.display = "none"
-    
-} 
-});
+
