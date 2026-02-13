@@ -1,6 +1,6 @@
-// -----------------------------
-// Helper: Split comma values safely
-// -----------------------------
+// -----------------------------------
+// Helper: Split comma-separated values
+// -----------------------------------
 const splitFilterValues = (value) => {
   if (!value) return [];
   return value
@@ -9,9 +9,9 @@ const splitFilterValues = (value) => {
     .filter(Boolean);
 };
 
-// -----------------------------
+// -----------------------------------
 // Custom Filters Class
-// -----------------------------
+// -----------------------------------
 class CustomFilters {
   constructor(container) {
     this.container = container;
@@ -24,13 +24,13 @@ class CustomFilters {
     this.container.addEventListener('click', this.onContainerClick);
     this.container.addEventListener('change', this.onContainerChange);
 
-    // Initialize state from current URL
+    // Initialize UI from URL
     this.syncFromUrl(window.location.search);
   }
 
-  // -----------------------------
-  // Handle Back / Forward browser
-  // -----------------------------
+  // -----------------------------------
+  // Handle browser back/forward
+  // -----------------------------------
   onPopState(event) {
     const searchParams =
       event.state?.searchParams ||
@@ -40,21 +40,19 @@ class CustomFilters {
     this.renderPage(searchParams, false);
   }
 
-  // -----------------------------
-  // Get Shopify Section ID
-  // -----------------------------
+  // -----------------------------------
+  // Get Shopify section id
+  // -----------------------------------
   getSectionId() {
     return document.getElementById('product-grid')?.dataset.id;
   }
 
-  // -----------------------------
+  // -----------------------------------
   // Sync UI from URL
-  // -----------------------------
+  // -----------------------------------
   syncFromUrl(search) {
     const searchParams = new URLSearchParams(search);
-    const forms = this.container.querySelectorAll(
-      '[data-custom-filter-form]'
-    );
+    const forms = this.container.querySelectorAll('[data-custom-filter-form]');
 
     forms.forEach((form) => {
       const param = form.dataset.customFilterParam;
@@ -65,9 +63,9 @@ class CustomFilters {
     });
   }
 
-  // -----------------------------
-  // Update UI State
-  // -----------------------------
+  // -----------------------------------
+  // Update UI + hidden input
+  // -----------------------------------
   updateFilterState(param, value) {
     const selectedValues = new Set(splitFilterValues(value));
     const escapedParam = CSS.escape(param);
@@ -83,8 +81,8 @@ class CustomFilters {
 
       if (isRadio) {
         trigger.checked = isActive;
-        const label = trigger.closest('.radio-filter-option');
-        if (label) label.classList.toggle('active', isActive);
+        const wrapper = trigger.closest('.radio-filter-option');
+        if (wrapper) wrapper.classList.toggle('active', isActive);
       } else {
         trigger.classList.toggle('active', isActive);
       }
@@ -99,14 +97,12 @@ class CustomFilters {
     }
   }
 
-  // -----------------------------
-  // Collect ALL filters (MERGE)
-  // -----------------------------
+  // -----------------------------------
+  // Collect ALL filters (merge logic)
+  // -----------------------------------
   collectSearchParams() {
     const params = new URLSearchParams(window.location.search);
-    const forms = this.container.querySelectorAll(
-      '[data-custom-filter-form]'
-    );
+    const forms = this.container.querySelectorAll('[data-custom-filter-form]');
 
     forms.forEach((form) => {
       const param = form.dataset.customFilterParam;
@@ -114,9 +110,7 @@ class CustomFilters {
 
       params.delete(param);
 
-      const hiddenInput = form.querySelector(
-        '[data-custom-filter-input]'
-      );
+      const hiddenInput = form.querySelector('[data-custom-filter-input]');
 
       if (hiddenInput) {
         const values = splitFilterValues(hiddenInput.value);
@@ -137,9 +131,9 @@ class CustomFilters {
     return params.toString();
   }
 
-  // -----------------------------
-  // Render AJAX product grid
-  // -----------------------------
+  // -----------------------------------
+  // AJAX render product grid
+  // -----------------------------------
   async renderPage(searchParams, updateURL = true) {
     const sectionId = this.getSectionId();
 
@@ -157,21 +151,15 @@ class CustomFilters {
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
       });
 
-      if (!response.ok) throw new Error('Failed to fetch');
+      if (!response.ok) throw new Error('Failed fetch');
 
       const html = await response.text();
-      const parsed = new DOMParser().parseFromString(
-        html,
-        'text/html'
-      );
+      const parsed = new DOMParser().parseFromString(html, 'text/html');
 
-      const nextGrid =
-        parsed.getElementById('ProductGridContainer');
-      const currentGrid =
-        document.getElementById('ProductGridContainer');
+      const nextGrid = parsed.getElementById('ProductGridContainer');
+      const currentGrid = document.getElementById('ProductGridContainer');
 
-      if (!nextGrid || !currentGrid)
-        throw new Error('Missing grid');
+      if (!nextGrid || !currentGrid) throw new Error('Grid missing');
 
       currentGrid.innerHTML = nextGrid.innerHTML;
 
@@ -187,5 +175,73 @@ class CustomFilters {
     }
   }
 
-  // -----------------------------
-  // Click (Buttons / Mult
+  // -----------------------------------
+  // BUTTON CLICK (MULTI-SELECT TOGGLE)
+  // -----------------------------------
+  async onContainerClick(event) {
+    const header = event.target.closest('.div-block-2');
+    if (header) {
+      event.preventDefault();
+      header.parentElement.classList.toggle('open');
+      return;
+    }
+
+    const trigger = event.target.closest('[data-custom-filter-trigger]');
+    if (!trigger || trigger.matches('input[type="radio"]')) return;
+
+    event.preventDefault();
+
+    const { param, value } = trigger.dataset;
+    if (!param || !value) return;
+
+    const form = trigger.closest('[data-custom-filter-form]');
+    if (!form) return;
+
+    const hiddenInput = form.querySelector('[data-custom-filter-input]');
+    if (!hiddenInput) return;
+
+    let values = splitFilterValues(hiddenInput.value);
+
+    if (values.includes(value)) {
+      values = values.filter((v) => v !== value);
+    } else {
+      values.push(value);
+    }
+
+    hiddenInput.value = values.join(',');
+
+    this.updateFilterState(param, hiddenInput.value);
+
+    const searchParams = this.collectSearchParams();
+    await this.renderPage(searchParams);
+  }
+
+  // -----------------------------------
+  // RADIO CHANGE
+  // -----------------------------------
+  async onContainerChange(event) {
+    const trigger = event.target.closest(
+      'input[type="radio"][data-custom-filter-trigger]'
+    );
+
+    if (!trigger) return;
+
+    const { param, value } = trigger.dataset;
+    if (!param) return;
+
+    this.updateFilterState(param, value || '');
+
+    const searchParams = this.collectSearchParams();
+    await this.renderPage(searchParams);
+  }
+}
+
+// -----------------------------------
+// Init
+// -----------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('[data-custom-filters-container]');
+  if (!container) return;
+
+  new CustomFilters(container);
+});
