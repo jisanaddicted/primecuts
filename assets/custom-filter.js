@@ -3,3 +3,6 @@ const dropdownui = document.querySelector(".w-form");
 toggleiconEl.addEventListener('click', () => {
     dropdownui.style.display = "block";
 });
+if (dropdownui.style.display === "block"){
+    dropdownui.style.display = "none"
+} 
