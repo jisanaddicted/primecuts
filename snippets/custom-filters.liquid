@@ -6,10 +6,10 @@
     {% assign filters = shop.metaobjects.filterdefination3.values %}
 
     {% for filter in filters %}
-      {% assign filter_handle = filter.handles.value | default: filter.handle %}
+      {% assign filter_handle = filter.handles.value | default: filter.handle | append: '' %}
       
       {% assign param_name = 'filter.p.m.custom.' | append: filter_handle %}
-      {{ param_name }}
+      
       {% assign active_value = request.params[param_name] %}
 
       <form
