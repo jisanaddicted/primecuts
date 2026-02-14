@@ -7,8 +7,9 @@
 
     {% for filter in filters %}
       {% assign filter_handle = filter.handles.value | default: filter.handle %}
-      {{ filter_handle }}
+      
       {% assign param_name = 'filter.p.m.custom.' | append: filter_handle %}
+      {{ param_name }}
       {% assign active_value = request.params[param_name] %}
 
       <form
