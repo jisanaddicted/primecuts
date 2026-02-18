@@ -55,7 +55,7 @@
             "share_label": "Share"
           }
         },
-        "appstle_memberships_appstle_membership_product_page_widget_WpfNHB": {
+        "appstle_memberships_appstle_membership_product_page_widget_hC8YfP": {
           "type": "shopify://apps/appstle-memberships/blocks/appstle-membership-product-page-widget/76528d70-5fbe-48f8-8e19-590d109aa2b7",
           "settings": {}
         }
@@ -69,7 +69,7 @@
         "buy_buttons",
         "description",
         "share",
-        "appstle_memberships_appstle_membership_product_page_widget_WpfNHB"
+        "appstle_memberships_appstle_membership_product_page_widget_hC8YfP"
       ],
       "settings": {
         "enable_sticky_info": true,
