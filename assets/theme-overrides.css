@@ -1,0 +1,1148 @@
+/* Custom overrides (kept separate from Webflow export). */
+.home-categories-intro .card-slider-section {
+  height: auto;
+  min-height: 0;
+}
+
+.home-categories-intro .div-block-9 {
+  height: auto;
+}
+
+#shopify-section-hero-section .section {
+  overflow: hidden;
+}
+
+#shopify-section-hero-section .div-block-7 {
+  inset: auto 0 0 auto;
+  margin-top: 0;
+}
+
+#shopify-section-hero-section .div-block-7 .image {
+  inset: auto 0 0 auto;
+}
+
+/* Product card: make pills/text flexible for variable length content */
+.div-block-32 {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.div-block-32 .paragraph {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  min-height: 32px;
+  padding: 6px 12px;
+  margin: 8px 0 0 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Product card: terpene/tag pills */
+.div-block-37 {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.div-block-37 .paragraph-3 {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  min-height: 32px;
+  padding: 6px 12px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Product card: price row */
+.div-block-44 {
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.div-block-44 .paragraph-6 {
+  margin: 0;
+  line-height: 1;
+}
+
+.div-block-44 .paragraph-7 {
+  margin: 0;
+  margin-left: auto;
+  display: block;
+}
+
+@media screen and (max-width: 479px) {
+  .div-block-44 .paragraph-7 {
+    flex-basis: 100%;
+    margin-left: 0;
+    text-align: left;
+  }
+}
+
+/* Product card: allow card height to grow with Shopify content */
+.div-block-26 {
+  height: auto;
+  min-height: 827px;
+  align-items: center;
+  padding-bottom: 24px;
+  box-sizing: border-box;
+}
+
+.div-block-28 {
+  height: auto;
+}
+
+.div-block-27,
+.div-block-28 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Sticky header (enabled via Header section setting) */
+header.is-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+#site-navigation a {
+  text-decoration: none;
+  color: var(--header-link-color, inherit);
+}
+
+#site-navigation a:hover,
+#site-navigation a:focus-visible {
+  color: var(--header-link-hover-color, var(--header-link-color, inherit));
+  text-decoration: none;
+}
+
+.announcement-bar {
+  width: 100%;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.announcement-bar__link,
+.announcement-bar__text {
+  color: var(--header-link-color, inherit);
+}
+
+.announcement-bar__link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 767px) {
+  /* Create a clean stacking context so z-index behaves predictably */
+  header {
+    position: relative;
+    z-index: 10000;
+    isolation: isolate;
+  }
+
+  /* Keep sticky behavior even though mobile nav sets header positioning */
+  header.is-sticky {
+    position: sticky !important;
+    top: 0;
+  }
+
+  #site-navigation a {
+    color: #111 !important;
+    text-decoration: none !important;
+    width: 100%;
+    text-align: left;
+    font-size: 18px !important;
+    line-height: 1.2;
+  }
+
+  /* Tighten hamburger menu link spacing */
+  #site-navigation .div-block-4 {
+    min-height: 36px;
+    padding: 8px 10px;
+    justify-content: flex-start;
+  }
+
+  /* Reduce overall sidebar padding so links sit closer */
+  #site-navigation.div-block-2 {
+    padding-top: 72px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+  }
+
+  /* Keep hamburger sidebar above everything */
+  #site-navigation {
+    position: fixed;
+    z-index: 9999 !important;
+  }
+
+  .menu-toggle {
+    z-index: 10000 !important;
+  }
+}
+
+/* Header cart icon */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+.header-cart {
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.header-cart__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--header-link-color, inherit);
+  text-decoration: none;
+}
+
+.header-cart__link:hover,
+.header-cart__link:focus-visible {
+  color: var(--header-link-hover-color, var(--header-link-color, inherit));
+  text-decoration: none;
+}
+
+.header-cart__icon {
+  display: block;
+}
+
+.header-cart__count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #ff3b30;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* Cart page */
+.cart-page .w-container {
+  max-width: 960px;
+}
+
+.cart-items {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 90px 1fr 130px 120px;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.cart-item__image img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.cart-item__title a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.cart-item__variant,
+.cart-item__plan {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.cart-item__price {
+  margin-top: 8px;
+}
+
+.cart-item__properties {
+  margin: 8px 0 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.cart-qty {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.cart-remove {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 13px;
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.cart-summary {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.cart-summary__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cart-discounts {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.cart-discounts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  opacity: 0.9;
+}
+
+.cart-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.cart-btn {
+  appearance: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #fff;
+}
+
+.cart-btn--primary {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  margin-left: auto;
+}
+
+.cart-note {
+  margin-top: 14px;
+  display: grid;
+  gap: 6px;
+}
+
+.cart-note textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  resize: vertical;
+}
+
+@media screen and (max-width: 767px) {
+  .cart-item {
+    grid-template-columns: 80px 1fr;
+    grid-template-areas:
+      "img details"
+      "qty qty"
+      "total total";
+  }
+
+  .cart-item__image {
+    grid-area: img;
+  }
+
+  .cart-item__details {
+    grid-area: details;
+  }
+
+  .cart-item__qty {
+    grid-area: qty;
+  }
+
+  .cart-item__total {
+    grid-area: total;
+    text-align: right;
+    font-weight: 700;
+  }
+}
+
+/* Product page: make variant dropdown usable (avoid inheriting 64px input sizing). */
+.variant-select {
+  width: 240px;
+  min-width: 180px;
+  height: 53px;
+  padding: 8px 12px;
+  background-color: #fff;
+  position: relative;
+  z-index: 5;
+  pointer-events: auto;
+}
+
+@media screen and (max-width: 479px) {
+  .variant-select {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Defensive: ensure product form controls stay clickable even if another layer overlaps. */
+#direct-checkout-form,
+#direct-checkout-form * {
+  pointer-events: auto;
+}
+#direct-checkout-form {
+  position: relative;
+  z-index: 5;
+}
+
+/* Utility: Shopify markup expects this class for conditional UI. */
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Product card — Figma node 2091-132968 ("Frame 28", 400x827)
+   Self-contained styles for snippets/product-card.liquid (pc- namespace).
+   ========================================================================== */
+.pc-card {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: stretch;
+  width: 400px;
+  max-width: 100%;
+  min-height: 827px;
+  padding: 24px;
+  box-sizing: border-box;
+  background-color: #f1f5f9;
+  border-radius: 24px;
+  box-shadow: -8px -8px 16px #fff, 8px 8px 16px #c9d9e8;
+  color: #000;
+  font-family: 'Satoshi', Arial, sans-serif;
+}
+
+.pc-card *,
+.pc-card *::before,
+.pc-card *::after {
+  box-sizing: inherit;
+}
+
+.pc-card__media {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #e8edf3;
+}
+
+.pc-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pc-card__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.pc-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pc-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pc-card__pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.pc-card__pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pc-card__pill--dark {
+  background-color: #0b0b0b;
+  color: #fff;
+}
+
+.pc-card__pill--outline {
+  border: 1px solid #d0d0d0;
+  background-color: transparent;
+  color: #000;
+}
+
+.pc-card__pill--heavy {
+  font-weight: 900;
+}
+
+.pc-card__title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.pc-card__terpenes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pc-card__terpene-label {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.pc-card__terpene-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pc-terpene {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 8px;
+  background-color: #a40058;
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Per-terpene colors (German + English tag spellings) */
+.pc-terpene--limonene,
+.pc-terpene--limonen {
+  background-color: #fbff00;
+  color: #000;
+}
+
+.pc-terpene--myrcene,
+.pc-terpene--myrcen {
+  background-color: #185100;
+  color: #fff;
+}
+
+.pc-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pc-slider__labels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+}
+
+.pc-slider__track {
+  height: 12px;
+  border: 1px solid #d9dce0;
+  border-radius: 36px;
+  overflow: hidden;
+}
+
+.pc-slider__fill {
+  height: 100%;
+  border-radius: 36px;
+  background-color: #000;
+}
+
+.pc-card__price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.pc-card__price {
+  margin: 0;
+  font-size: 48px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.pc-card__tax {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.pc-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 16px;
+  border: 0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pc-btn img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.pc-btn--light {
+  gap: 16px;
+  background-color: #fff;
+  color: #000;
+}
+
+.pc-btn--dark {
+  gap: 10px;
+  background-color: #0b0b0b;
+  color: #fff;
+}
+
+.pc-btn--light:hover,
+.pc-btn--light:focus-visible {
+  background-color: #f3f6fa;
+}
+
+.pc-btn--dark:hover,
+.pc-btn--dark:focus-visible {
+  background-color: #262626;
+}
+
+.pc-btn--disabled {
+  cursor: default;
+  opacity: 0.9;
+}
+
+@media screen and (max-width: 991px) {
+  .pc-card {
+    width: min(100%, 420px);
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .pc-card {
+    border-radius: 16px;
+  }
+
+  .pc-card__actions {
+    flex-direction: column;
+  }
+
+  .pc-card__actions .pc-btn {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Mobile responsiveness polish (global)
+   ========================================================================== */
+
+/* Product page: stretch the checkout button when the form stacks on mobile */
+@media screen and (max-width: 767px) {
+  .form-2 .div-block-47 {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+/* Collection grid: tighter card spacing on phones */
+@media screen and (max-width: 479px) {
+  .section-4 {
+    gap: 24px;
+  }
+}
+
+/* ==========================================================================
+   Home category showcase cards — Figma node 2091-132325 ("Select", 1312x600)
+   Dark card: ghost category name, glow blobs, pack shot, content left.
+   Sticky-stacked while scrolling (pure CSS).
+   ========================================================================== */
+.pc-cats__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 2400px;
+}
+
+.pc-cat {
+  position: sticky;
+  width: 89%;
+  height: 600px;
+  border-radius: 12px;
+  background-color: #1d1f24;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3), -4px -4px 12px rgba(122, 134, 151, 0.2);
+  overflow: hidden;
+}
+
+/* Stack offsets: later cards slide over earlier ones */
+.pc-cat:nth-child(1) { top: -38px; }
+.pc-cat:nth-child(2) { top: 0; z-index: 1; }
+.pc-cat:nth-child(3) { top: -38px; z-index: 200; }
+.pc-cat:nth-child(4) { top: -42px; z-index: 500; }
+
+.pc-cat__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pc-cat__ghost {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -46%);
+  font-family: 'Satoshi', Arial, sans-serif;
+  font-size: 700px;
+  font-weight: 300;
+  line-height: 1;
+  white-space: nowrap;
+  background-image: linear-gradient(180deg, #ffffff 0%, #999999 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+  opacity: 0.05;
+}
+
+/* Diagonal glow beam — faithful SVG export of Figma node 2091:132330
+   ("Rectangle 1": skewed rect, 40px blur, #CDCDCD -> #FDF2D4, 25% opacity) */
+.pc-cat__beam {
+  position: absolute;
+  left: 64.9%;
+  top: 4.5%;
+  width: 46.1%;
+  height: auto;
+  pointer-events: none;
+}
+
+/* Sky spotlights — 5 long ethereal searchlight beams, faithful to Figma
+   node 2091-132325 "Rectangle 6": 46.91 x 899.45px, 40px blur,
+   #CDCDCD -> #FDF2D4, 25% opacity, matrix(0.73, 0.69, -0.63, 0.77, 0, 0).
+   The light source of each beam sits near the top-right corner; each beam
+   pivots around its source (transform-origin: 0 0) and sweeps left -> right
+   and back the way real searchlights pan across the sky, brightening as it
+   passes overhead and fading slightly at the extremes of the sweep. */
+.pc-cat__sky-spotlights {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.pc-cat__spotlight {
+  position: absolute;
+  left: 54%;
+  width: 46.91px;
+  height: 899.45px;
+  background: linear-gradient(180deg, #CDCDCD 0%, #FDF2D4 100%);
+  opacity: 0.25;
+  filter: blur(40px);
+  will-change: transform, left, opacity;
+  transform-origin: 0 0;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.pc-cat__spotlight--1 {
+  top: -38.7px;
+  animation-name: sky-spotlight-1;
+  animation-duration: 9s;
+  animation-delay: 0s;
+}
+
+.pc-cat__spotlight--2 {
+  top: 100px;
+  animation-name: sky-spotlight-2;
+  animation-duration: 7.5s;
+  animation-delay: -1.2s;
+}
+
+.pc-cat__spotlight--3 {
+  top: 260px;
+  animation-name: sky-spotlight-3;
+  animation-duration: 10.5s;
+  animation-delay: -2.4s;
+}
+
+.pc-cat__spotlight--4 {
+  top: 440px;
+  animation-name: sky-spotlight-4;
+  animation-duration: 8s;
+  animation-delay: -0.6s;
+}
+
+.pc-cat__spotlight--5 {
+  top: 620px;
+  animation-name: sky-spotlight-5;
+  animation-duration: 11s;
+  animation-delay: -3.2s;
+}
+
+/* Each beam pivots around its top-left (the light source): as it travels
+   across the sky the matrix skew is layered with a slow rotation so the
+   beam keeps pointing naturally while panning, exactly like a searchlight. */
+@keyframes sky-spotlight-1 {
+  0%   { left: 58%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-4deg); }
+  50%  { opacity: 0.32; }
+  100% { left: 26%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(6deg); }
+}
+
+@keyframes sky-spotlight-2 {
+  0%   { left: 60%; opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-6deg); }
+  50%  { opacity: 0.3; }
+  100% { left: 30%; opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(3deg); }
+}
+
+@keyframes sky-spotlight-3 {
+  0%   { left: 62%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-2deg); }
+  50%  { opacity: 0.34; }
+  100% { left: 24%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(8deg); }
+}
+
+@keyframes sky-spotlight-4 {
+  0%   { left: 55%; opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-5deg); }
+  50%  { opacity: 0.3; }
+  100% { left: 22%; opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(4deg); }
+}
+
+@keyframes sky-spotlight-5 {
+  0%   { left: 52%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-3deg); }
+  50%  { opacity: 0.32; }
+  100% { left: 26%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(7deg); }
+}
+
+.pc-cat__streak {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(112deg, transparent 40%, rgba(255, 255, 255, 0.09) 54%, rgba(255, 255, 255, 0.02) 68%, transparent 74%);
+}
+
+.pc-cat__pack {
+  position: absolute;
+  top: 6%;
+  right: 7%;
+  height: 112%;
+  width: auto;
+  filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.55));
+}
+
+.pc-cat__content {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 64px;
+  width: 522px;
+  max-width: 100%;
+  height: 100%;
+  padding: 24px 0 24px 64px;
+}
+
+.pc-cat__title {
+  margin: 0;
+  color: #fff;
+  font-family: 'Satoshi', Arial, sans-serif;
+  font-size: 96px;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.pc-cat__text {
+  margin: 0;
+  color: #bebebe;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+.pc-cat__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  width: 162px;
+  height: 54px;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.pc-cat__btn:hover,
+.pc-cat__btn:focus-visible {
+  background-color: #e9edf2;
+}
+
+@media screen and (max-width: 991px) {
+  .pc-cats__stack {
+    min-height: 0;
+    gap: 32px;
+  }
+
+  .pc-cat {
+    width: 100%;
+    height: auto;
+    min-height: 520px;
+  }
+
+  .pc-cat__ghost {
+    font-size: 320px;
+  }
+
+  .pc-cat__content {
+    padding: 48px 40px;
+    gap: 32px;
+  }
+
+  .pc-cat__title {
+    font-size: 64px;
+  }
+
+    .pc-cat__pack {
+    height: 100%;
+    right: 24px;
+  }
+
+    .pc-cat__sky-spotlights {
+    width: 100%;
+    height: 100%;
+  }
+
+  .pc-cat__spotlight {
+    height: 700px;
+    filter: blur(35px);
+  }
+
+  .pc-cat__spotlight--1 {
+    top: -30px;
+  }
+
+  .pc-cat__spotlight--2 {
+    top: 80px;
+  }
+
+  .pc-cat__spotlight--3 {
+    top: 220px;
+  }
+
+  .pc-cat__spotlight--4 {
+    top: 400px;
+  }
+
+  .pc-cat__spotlight--5 {
+    top: 560px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .pc-cat {
+    position: relative;
+    min-height: 480px;
+  }
+
+  .pc-cat__ghost {
+    top: 24px;
+    transform: translateX(-50%);
+    font-size: 160px;
+    opacity: 0.07;
+  }
+
+  .pc-cat__content {
+    justify-content: flex-start;
+    min-height: 480px;
+    padding: 32px 20px;
+    gap: 24px;
+  }
+
+  .pc-cat__title {
+    font-size: 56px;
+  }
+
+  .pc-cat__pack {
+    top: auto;
+    right: 8px;
+    bottom: 0;
+    width: min(60%, 240px);
+    height: auto;
+    opacity: 0.16;
+  }
+
+    .pc-cat__beam {
+    opacity: 0.7;
+  }
+
+    .pc-cat__sky-spotlights {
+    width: 100%;
+    height: 100%;
+  }
+
+  .pc-cat__spotlight {
+    height: 600px;
+    filter: blur(30px);
+  }
+
+  .pc-cat__spotlight--1 {
+    top: -25px;
+  }
+
+  .pc-cat__spotlight--2 {
+    top: 70px;
+  }
+
+  .pc-cat__spotlight--3 {
+    top: 190px;
+  }
+
+  .pc-cat__spotlight--4 {
+    top: 340px;
+  }
+
+  .pc-cat__spotlight--5 {
+    top: 490px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .pc-cat {
+    min-height: 420px;
+  }
+
+  .pc-cat__content {
+    min-height: 420px;
+    padding: 24px 16px;
+  }
+
+  .pc-cat__title {
+    font-size: 42px;
+  }
+
+    .pc-cat__ghost {
+    font-size: 110px;
+  }
+
+    .pc-cat__sky-spotlights {
+    width: 100%;
+    height: 100%;
+  }
+
+  .pc-cat__spotlight {
+    height: 500px;
+    filter: blur(25px);
+  }
+
+  .pc-cat__spotlight--1 {
+    top: -20px;
+  }
+
+  .pc-cat__spotlight--2 {
+    top: 60px;
+  }
+
+  .pc-cat__spotlight--3 {
+    top: 160px;
+  }
+
+  .pc-cat__spotlight--4 {
+    top: 280px;
+  }
+
+  .pc-cat__spotlight--5 {
+    top: 400px;
+  }
+}

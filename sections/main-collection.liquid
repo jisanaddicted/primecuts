@@ -1,0 +1,68 @@
+<section class="section-3">
+  <div class="div-block-25">
+    <div class="text-block-14">{{ collection.title | default: 'Shop' }}</div>
+    <div class="text-block-15">
+      {{ collection.description | strip_html | default: 'Finde Genetik, die genau das liefert, was du brauchst.' }}
+    </div>
+  </div>
+  <img src="{{ 'White-Corner-1-1.png' | asset_url }}" loading="lazy" alt="" class="image-10">
+</section>
+
+<section class="section-5">
+  <div class="w-layout-blockcontainer container w-container">
+    <p class="paragraph-8">Nicht planlos klicken. Sondern gezielt selektieren.</p>
+    <p class="paragraph-9">
+      Filtere nach Kategorie, Terpenen, Wirkung oder Washer-Qualität – und finde Genetik, die genau das liefert, was du
+      brauchst. Und mehr.
+    </p>
+    <img src="{{ 'dna-helix-png-3d-transparent-background-2-1.png' | asset_url }}" loading="lazy" alt="" class="image1">
+    <img src="{{ 'dna-helix-png-3d-transparent-background-2-1.png' | asset_url }}" loading="lazy" alt="" class="image2">
+  </div>
+</section>
+{% render 'filter' %}
+<section
+  class="section-4"
+  style="padding-top: {{ section.settings.section4_padding_top | default: 60 }}px; padding-bottom: {{ section.settings.section4_padding_bottom | default: 60 }}px;"
+>
+  {% if collection and collection.products_count > 0 %}
+    {% for product in collection.products %}
+      {% render 'product-card', product: product %}
+    {% endfor %}
+  {% else %}
+    <div class="w-container">
+      <p>No products found.</p>
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Main Collection",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Enable sorting",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "section4_padding_top",
+      "label": "Section 4 padding top (px)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section4_padding_bottom",
+      "label": "Section 4 padding bottom (px)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 60
+    }
+  ]
+}
+{% endschema %}
