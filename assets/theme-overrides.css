@@ -804,12 +804,13 @@ header.is-sticky {
 }
 
 /* Sky spotlights — 5 long ethereal searchlight beams, faithful to Figma
-   node 2091-132325 "Rectangle 6": 46.91 x 899.45px, 40px blur,
-   #CDCDCD -> #FDF2D4, 25% opacity, matrix(0.73, 0.69, -0.63, 0.77, 0, 0).
-   The light source of each beam sits near the top-right corner; each beam
-   pivots around its source (transform-origin: 0 0) and sweeps left -> right
-   and back the way real searchlights pan across the sky, brightening as it
-   passes overhead and fading slightly at the extremes of the sweep. */
+   node 2091-132325 "Frame 18" (1312x600): the light source anchors of each
+   beam sit in a cluster above the pack shot (Rectangles 2/3/4/5/6: left 50-61%,
+   top -37% -> -6.5%), tilted 43° (matrix(0.73, 0.69, -0.63, 0.77, 0, 0)) so
+   they shine DOWN-RIGHT, focused on the 'PRIMECUTS' bottle on the right side.
+   Each beam pivots around its top anchor like a real searchlight mast: it
+   sweeps left -> right and back, brightening as it crosses the bottle and
+   fading slightly at the extremes of the sweep. */
 .pc-cat__sky-spotlights {
   position: absolute;
   top: 0;
@@ -822,85 +823,90 @@ header.is-sticky {
 
 .pc-cat__spotlight {
   position: absolute;
-  left: 54%;
   width: 46.91px;
   height: 899.45px;
   background: linear-gradient(180deg, #CDCDCD 0%, #FDF2D4 100%);
   opacity: 0.25;
   filter: blur(40px);
-  will-change: transform, left, opacity;
+  will-change: transform, opacity;
   transform-origin: 0 0;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
 
+/* Anchors map 1:1 to the Figma beam positions ("Rectangle 6" is --5) */
 .pc-cat__spotlight--1 {
-  top: -38.7px;
+  left: 61%;
+  top: -36.8%;
   animation-name: sky-spotlight-1;
-  animation-duration: 9s;
+  animation-duration: 8s;
   animation-delay: 0s;
 }
 
 .pc-cat__spotlight--2 {
-  top: 100px;
+  left: 55.4%;
+  top: -26.8%;
   animation-name: sky-spotlight-2;
   animation-duration: 7.5s;
   animation-delay: -1.2s;
 }
 
 .pc-cat__spotlight--3 {
-  top: 260px;
+  left: 59.6%;
+  top: -18.3%;
   animation-name: sky-spotlight-3;
   animation-duration: 10.5s;
   animation-delay: -2.4s;
 }
 
 .pc-cat__spotlight--4 {
-  top: 440px;
+  left: 50%;
+  top: -18.3%;
   animation-name: sky-spotlight-4;
-  animation-duration: 8s;
+  animation-duration: 8.5s;
   animation-delay: -0.6s;
 }
 
 .pc-cat__spotlight--5 {
-  top: 620px;
+  left: 59.6%;
+  top: -6.5%;
   animation-name: sky-spotlight-5;
   animation-duration: 11s;
   animation-delay: -3.2s;
 }
 
-/* Each beam pivots around its top-left (the light source): as it travels
-   across the sky the matrix skew is layered with a slow rotation so the
-   beam keeps pointing naturally while panning, exactly like a searchlight. */
+/* Each beam keeps its 43° Figma tilt and only pivots a few degrees around
+   its top anchor (the light source), so the beam tip sweeps left -> right
+   and back across the bottle while the source stays fixed above it. */
 @keyframes sky-spotlight-1 {
-  0%   { left: 58%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-4deg); }
-  50%  { opacity: 0.32; }
-  100% { left: 26%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(6deg); }
+  0%   { opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-5deg); }
+  50%  { opacity: 0.34; }
+  100% { opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(2deg); }
 }
 
 @keyframes sky-spotlight-2 {
-  0%   { left: 60%; opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-6deg); }
-  50%  { opacity: 0.3; }
-  100% { left: 30%; opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(3deg); }
+  0%   { opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-2deg); }
+  50%  { opacity: 0.32; }
+  100% { opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(4deg); }
 }
 
 @keyframes sky-spotlight-3 {
-  0%   { left: 62%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-2deg); }
+  0%   { opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-4deg); }
   50%  { opacity: 0.34; }
-  100% { left: 24%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(8deg); }
+  100% { opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(1deg); }
 }
 
 @keyframes sky-spotlight-4 {
-  0%   { left: 55%; opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-5deg); }
+  0%   { opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(3deg); }
   50%  { opacity: 0.3; }
-  100% { left: 22%; opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(4deg); }
+  100% { opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-4deg); }
 }
 
 @keyframes sky-spotlight-5 {
-  0%   { left: 52%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-3deg); }
-  50%  { opacity: 0.32; }
-  100% { left: 26%; opacity: 0.18; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(7deg); }
+  0%   { opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(-3deg); }
+  50%  { opacity: 0.34; }
+  100% { opacity: 0.16; transform: matrix(0.73, 0.69, -0.63, 0.77, 0, 0) rotate(5deg); }
 }
 
 .pc-cat__streak {
@@ -1008,26 +1014,6 @@ header.is-sticky {
     height: 700px;
     filter: blur(35px);
   }
-
-  .pc-cat__spotlight--1 {
-    top: -30px;
-  }
-
-  .pc-cat__spotlight--2 {
-    top: 80px;
-  }
-
-  .pc-cat__spotlight--3 {
-    top: 220px;
-  }
-
-  .pc-cat__spotlight--4 {
-    top: 400px;
-  }
-
-  .pc-cat__spotlight--5 {
-    top: 560px;
-  }
 }
 
 @media screen and (max-width: 767px) {
@@ -1076,26 +1062,6 @@ header.is-sticky {
     height: 600px;
     filter: blur(30px);
   }
-
-  .pc-cat__spotlight--1 {
-    top: -25px;
-  }
-
-  .pc-cat__spotlight--2 {
-    top: 70px;
-  }
-
-  .pc-cat__spotlight--3 {
-    top: 190px;
-  }
-
-  .pc-cat__spotlight--4 {
-    top: 340px;
-  }
-
-  .pc-cat__spotlight--5 {
-    top: 490px;
-  }
 }
 
 @media screen and (max-width: 479px) {
@@ -1124,25 +1090,5 @@ header.is-sticky {
   .pc-cat__spotlight {
     height: 500px;
     filter: blur(25px);
-  }
-
-  .pc-cat__spotlight--1 {
-    top: -20px;
-  }
-
-  .pc-cat__spotlight--2 {
-    top: 60px;
-  }
-
-  .pc-cat__spotlight--3 {
-    top: 160px;
-  }
-
-  .pc-cat__spotlight--4 {
-    top: 280px;
-  }
-
-  .pc-cat__spotlight--5 {
-    top: 400px;
   }
 }
