@@ -879,37 +879,38 @@ header.is-sticky {
   animation-delay: -3.2s;
 }
 
-/* Each beam keeps its down-right tilt and only pivots a few degrees around
-   its top anchor (the light source), so the beam tip sweeps left -> right
-   and back across the bottle while the source stays fixed above it. */
+/* Each beam keeps its down-right tilt and pivots in a wide arc around its
+   top anchor (the light source): the BOTTOM tip sweeps LEFT -> RIGHT and
+   back (right -> left) across the bottle like a real searchlight beam,
+   brightening as it crosses the bottle and fading at the sweep extremes. */
 @keyframes sky-spotlight-1 {
-  0%   { opacity: 0.16; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-5deg); }
+  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-12deg); }
   50%  { opacity: 0.34; }
-  100% { opacity: 0.16; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(2deg); }
+  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(9deg); }
 }
 
 @keyframes sky-spotlight-2 {
-  0%   { opacity: 0.16; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-2deg); }
+  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-8deg); }
   50%  { opacity: 0.32; }
-  100% { opacity: 0.16; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(4deg); }
+  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(13deg); }
 }
 
 @keyframes sky-spotlight-3 {
-  0%   { opacity: 0.16; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-4deg); }
+  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-13deg); }
   50%  { opacity: 0.34; }
-  100% { opacity: 0.16; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(1deg); }
+  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(7deg); }
 }
 
 @keyframes sky-spotlight-4 {
-  0%   { opacity: 0.16; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(3deg); }
+  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(11deg); }
   50%  { opacity: 0.3; }
-  100% { opacity: 0.16; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-4deg); }
+  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-11deg); }
 }
 
 @keyframes sky-spotlight-5 {
-  0%   { opacity: 0.16; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-3deg); }
+  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-9deg); }
   50%  { opacity: 0.34; }
-  100% { opacity: 0.16; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(5deg); }
+  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(12deg); }
 }
 
 .pc-cat__streak {
