@@ -1,11 +1,31 @@
 /* Custom overrides (kept separate from Webflow export). */
+/* Categories intro <-> category cards spacing. In the original Webflow
+   one-piece section the intro text (div-block-9) and the cards (div-block-10)
+   shared a single .card-slider-section, separated by div-block-10's 108px
+   margin-top (72px at <=991px). After splitting them into two sections the
+   intro lost its bottom space — the text touched the first card on desktop —
+   while on mobile both sections' paddings double-counted (216px gap).
+   The gap is now owned by the intro section's "Bottom spacing" theme setting
+   (default 108px, applied to the #shopify-section wrapper which carries the
+   #17191D canvas so the space blends into the page; scales to ~72px on
+   mobile). Keep the inner padding at 0 so the setting has the final say. */
 .home-categories-intro .card-slider-section {
   height: auto;
   min-height: 0;
+  padding-bottom: 0;
 }
 
 .home-categories-intro .div-block-9 {
   height: auto;
+}
+
+/* Categories section: drop the mobile top padding (96px/72px) that used to be
+   the gap ABOVE the intro text when both lived in one section — the intro
+   section's wrapper spacing provides the gap now. These overrides outrank the
+   Webflow media-query shorthands (higher specificity), so they apply at every
+   width. */
+.home-categories .card-slider-section {
+  padding-top: 0;
 }
 
 #shopify-section-hero-section .section {
@@ -732,6 +752,14 @@ header.is-sticky {
   }
 }
 
+/* Collection grid: left-align cards so a single leftover product in the last
+   row sits at the left edge instead of being centered. The Webflow export
+   uses justify-content: center on .section-4 (base + <=991px), which centers
+   ragged last rows; flex-start keeps full rows packed from the left. */
+.section-4 {
+  justify-content: flex-start;
+}
+
 /* Collection grid: tighter card spacing on phones */
 @media screen and (max-width: 479px) {
   .section-4 {
@@ -843,7 +871,7 @@ header.is-sticky {
   left: 56%;
   top: -36.8%;
   animation-name: sky-spotlight-1;
-  animation-duration: 5.5s;
+  animation-duration: 3.3s;
   animation-delay: 0s;
 }
 
@@ -851,7 +879,7 @@ header.is-sticky {
   left: 52%;
   top: -26.8%;
   animation-name: sky-spotlight-2;
-  animation-duration: 5s;
+  animation-duration: 2.9s;
   animation-delay: -1.1s;
 }
 
@@ -859,7 +887,7 @@ header.is-sticky {
   left: 48%;
   top: -18.3%;
   animation-name: sky-spotlight-3;
-  animation-duration: 7s;
+  animation-duration: 4.1s;
   animation-delay: -2s;
 }
 
@@ -867,7 +895,7 @@ header.is-sticky {
   left: 44%;
   top: -18.3%;
   animation-name: sky-spotlight-4;
-  animation-duration: 6s;
+  animation-duration: 3.7s;
   animation-delay: -0.5s;
 }
 
@@ -875,7 +903,7 @@ header.is-sticky {
   left: 48%;
   top: -6.5%;
   animation-name: sky-spotlight-5;
-  animation-duration: 7.5s;
+  animation-duration: 4.5s;
   animation-delay: -2.7s;
 }
 
@@ -884,33 +912,33 @@ header.is-sticky {
    back (right -> left) across the bottle like a real searchlight beam,
    brightening as it crosses the bottle and fading at the sweep extremes. */
 @keyframes sky-spotlight-1 {
-  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-12deg); }
+  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-15deg); }
   50%  { opacity: 0.34; }
-  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(9deg); }
+  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(12deg); }
 }
 
 @keyframes sky-spotlight-2 {
-  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-8deg); }
+  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-11deg); }
   50%  { opacity: 0.32; }
-  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(13deg); }
+  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(16deg); }
 }
 
 @keyframes sky-spotlight-3 {
-  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-13deg); }
+  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-16deg); }
   50%  { opacity: 0.34; }
-  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(7deg); }
+  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(10deg); }
 }
 
 @keyframes sky-spotlight-4 {
-  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(11deg); }
+  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(14deg); }
   50%  { opacity: 0.3; }
-  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-11deg); }
+  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-14deg); }
 }
 
 @keyframes sky-spotlight-5 {
-  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-9deg); }
+  0%   { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(-12deg); }
   50%  { opacity: 0.34; }
-  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(12deg); }
+  100% { opacity: 0.15; transform: matrix(0.73, 0.69, 0.63, 0.77, 0, 0) rotate(15deg); }
 }
 
 .pc-cat__streak {

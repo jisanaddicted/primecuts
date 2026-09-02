@@ -25,7 +25,7 @@
     --pc-radius: 8px;
 
     background: transparent;
-    padding: 28px 16px 0;
+    padding: 28px 16px 28px;
   }
 
   .pc-filters__row {
@@ -171,8 +171,10 @@
 
   /* ---- Tag pills ---- */
   .pc-filter__tags {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: start;
+    justify-items: start;
     gap: 8px;
   }
 
@@ -231,11 +233,16 @@
 
   @media screen and (max-width: 767px) {
     .pc-filters {
-      padding: 20px 12px 0;
+      padding: 20px 12px 20px;
     }
 
     .pc-filters__row {
       gap: 24px;
+    }
+
+    /* 4 pill columns can overflow a phone — drop to 2 per row */
+    .pc-filter__tags {
+      grid-template-columns: repeat(2, auto);
     }
   }
 {% endstyle %}
